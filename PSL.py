@@ -5,13 +5,11 @@ import streamlit as st
 import numpy as np
 import seaborn as sns
 
-#import dtale
 
 st.set_page_config(layout='wide')
 st.title('Pakistan Super League Analysis')
 st.write('This analysis was performed using the data avalaible on PSL 2019')
 
-#df = pd.read_csv('psl.csv',sep=',')
 
 Headers=['Over_Ball','Batting_Team','Striking_Batsman','Non_Striking_Batsman','Bowler','Runs_Scored','Extras','Fallen_Wickets','Stadium','Cumulative_Runs_Scored','Bowling_Team','Final_Score']
 df=pd.read_csv('psl.csv',names=Headers)
@@ -19,7 +17,6 @@ df.head()
 
 df.dropna( subset=['Batting_Team','Striking_Batsman','Non_Striking_Batsman','Bowler','Runs_Scored','Extras','Fallen_Wickets','Stadium','Cumulative_Runs_Scored','Bowling_Team','Final_Score'],axis=0, inplace=True)
 
-#df[['Runs_Scored','Extras','Fallen_Wickets','Cumulative_Runs_Scored','Final_Score']]=df[['Runs_Scored','Extras','Fallen_Wickets','Cumulative_Runs_Scored','Final_Score']].astype(int)
 
 corr=df.corr()
 fig = plt.figure(figsize=(12,8))
@@ -27,12 +24,11 @@ sns.heatmap(corr,vmax=.3, square=True,annot=True)
 st.pyplot(fig)
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# DISCLAIMER: 'df' refers to the data you passed in when calling 'dtale.show'
 
 if isinstance(df, (pd.DatetimeIndex, pd.MultiIndex)):
 	df = df.to_frame(index=False)
 
-# remove any pre-existing indices for ease of use in the D-Tale code, but this is not required
+# remove any pre-existing indices for ease of use , but this is not required
 df = df.reset_index().drop('index', axis=1, errors='ignore')
 df.columns = [str(c) for c in df.columns]  # update columns to strings in case they are numbers
 
@@ -65,8 +61,6 @@ st.plotly_chart(figure)
 
 
 
-df1 = pd.read_table("https://raw.githubusercontent.com/jlinehan31/nfl_kickers/main/nfl_fg_career_2021",sep=',')
-
 df['Fallen_Wickets'] = df['Fallen_Wickets'] / 100
 
 select_names = st.sidebar.multiselect('Select a Batter for chart # 1', df['Striking_Batsman'].unique(),
@@ -79,7 +73,7 @@ else:
     select_names = df['Striking_Batsman'].unique()
 
 st.subheader("Chart # 1")
-fig = px.scatter(data_frame=df[df['Striking_Batsman'].isin(select_names)], #df[df.reports.isin([24])]
+fig = px.scatter(data_frame=df[df['Striking_Batsman'].isin(select_names)], 
                 x='Final_Score', 
                 y='Over_Ball', 
                 size='Cumulative_Runs_Scored',
@@ -130,9 +124,24 @@ fig= px.scatter(data_frame=fg_by_distance[fg_by_distance['Batting_Team'].isin([b
             x='Striking_Batsman',
             y='Final_Score',
             color='Bowling_Team',
-             title='Team performance till PSL 2019'
+             title='Team batting performance against each team'
 )
 # 
 fig.update_yaxes(tickformat='.')
 # 
-st.plotly_chart(fig)        
+st.plotly_chart(fig)     
+
+batsman =  st.radio('Select a Bowling team', df['Bowling_Team'].unique(),
+                                      help='Select one or many')
+
+st.subheader("Chart # 4") 
+fig= px.scatter(data_frame=df[df['Bowling_Team'].isin([batsman])],
+            x='Bowler',
+            y='Final_Score',
+            color='Batting_Team',
+             title='Team Bowling performance against each team'
+)
+# 
+fig.update_yaxes(tickformat='.')
+# 
+st.plotly_chart(fig) 
