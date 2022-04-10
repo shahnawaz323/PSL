@@ -105,8 +105,6 @@ fig.update_yaxes(tickformat=".")
 st.plotly_chart(fig)
 # 
 
-st.markdown("The Data for the above charts")
-st.dataframe(df)
 
 bowler = st.selectbox('Select a Batting team', df['Batting_Team'].unique(),
                                       help='Select one or many')
@@ -145,3 +143,7 @@ fig= px.scatter(data_frame=df[df['Bowling_Team'].isin([batsman])],
 fig.update_yaxes(tickformat='.')
 # 
 st.plotly_chart(fig) 
+
+st.markdown("The Data for the above charts")
+st.dataframe(df)
+
