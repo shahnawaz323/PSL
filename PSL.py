@@ -18,10 +18,7 @@ df.head()
 df.dropna( subset=['Batting_Team','Striking_Batsman','Non_Striking_Batsman','Bowler','Runs_Scored','Extras','Fallen_Wickets','Stadium','Cumulative_Runs_Scored','Bowling_Team','Final_Score'],axis=0, inplace=True)
 
 
-corr=df.corr()
-fig = plt.figure(figsize=(12,8))
-sns.heatmap(corr,vmax=.3, square=True,annot=True)
-st.pyplot(fig)
+
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
@@ -143,6 +140,12 @@ fig= px.scatter(data_frame=df[df['Bowling_Team'].isin([batsman])],
 fig.update_yaxes(tickformat='.')
 # 
 st.plotly_chart(fig) 
+
+corr=df.corr()
+fig = plt.figure(figsize=(12,8))
+sns.heatmap(corr,vmax=.3, square=True,annot=True)
+plt.title("Corelation map between different parameters")
+st.pyplot(fig)
 
 st.markdown("The Data for the above charts")
 st.dataframe(df)
