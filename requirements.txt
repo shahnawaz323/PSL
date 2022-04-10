@@ -1,0 +1,14 @@
+altair==4.2.0
+beautifulsoup4==4.11.1
+GitPython==3.1.27
+Mako==1.1.6
+matplotlib==3.5.1
+numpy==1.19.4
+pandas==1.4.1
+plotly==5.3.0
+PyYAML==6.0
+requests==2.27.1
+ruamel.base==1.0.0
+scikit_learn==1.0.2
+streamlit==1.5.1
+welly==0.5.2
