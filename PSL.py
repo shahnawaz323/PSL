@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-import statsmodels.api as sm
 import streamlit as st
 import numpy as np
 import seaborn as sns
